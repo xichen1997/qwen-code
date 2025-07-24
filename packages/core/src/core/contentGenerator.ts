@@ -75,7 +75,7 @@ export async function createContentGeneratorConfig(
   const googleApiKey = process.env.GOOGLE_API_KEY || undefined;
   const googleCloudProject = process.env.GOOGLE_CLOUD_PROJECT || undefined;
   const googleCloudLocation = process.env.GOOGLE_CLOUD_LOCATION || undefined;
-  const openaiApiKey = process.env.OPENAI_API_KEY;
+  const openaiApiKey = process.env.OPENAI_API_KEY || "ollama";
 
   // Use runtime model from config if available, otherwise fallback to parameter or default
   const effectiveModel = model || DEFAULT_GEMINI_MODEL;
@@ -84,6 +84,9 @@ export async function createContentGeneratorConfig(
     model: effectiveModel,
     authType,
   };
+
+  // Always load the system prompt for any model
+  // (No change needed if already loaded in prompts.ts or system.md)
 
   // If we are using Google auth or we are in Cloud Shell, there is nothing else to validate for now
   if (
